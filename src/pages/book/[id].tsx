@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { Box, Container, Heading, Text, VStack, Button, Badge, Flex, Spinner, Card, CardBody, Image, Grid } from '@chakra-ui/react'
 import Link from 'next/link'
 import TTSButton from '@/components/TTSButton'
+import Comments from '@/components/Comments'
 import GoldenSentenceShare from '@/components/GoldenSentenceShare'
 
 interface Note {
@@ -170,6 +171,9 @@ export default function BookDetail() {
                 </CardBody>
               </Card>
             )}
+
+            {/* 评论 */}
+            <Comments bookId={book.id} />
           </VStack>
         </Grid>
       </Container>
