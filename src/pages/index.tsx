@@ -161,15 +161,23 @@ function BookCard({ book, isProcessing }: { book: Book; isProcessing?: boolean }
   return (
     <Card>
       <CardBody>
-        <Image 
-          src={book.cover} 
-          alt={book.title} 
-          borderRadius="md" 
-          mb={3} 
-          h="150px" 
-          objectFit="cover"
-        />
-        <Heading size="sm" noOfLines={2}>{book.title}</Heading>
+        <Link href={`/book/${book.id}`}>
+          <Image 
+            src={book.cover} 
+            alt={book.title} 
+            borderRadius="md" 
+            mb={3} 
+            h="150px" 
+            objectFit="cover"
+            cursor="pointer"
+            _hover={{ opacity: 0.8 }}
+          />
+        </Link>
+        <Link href={`/book/${book.id}`}>
+          <Heading size="sm" noOfLines={2} _hover={{ color: 'blue.500' }}>
+            {book.title}
+          </Heading>
+        </Link>
         <Text fontSize="sm" color="gray.500">{book.author}</Text>
         <Badge mt={2} colorScheme={isProcessing ? 'orange' : 'green'}>
           {isProcessing ? '⏳ AI处理中' : '✅ 完成'}
