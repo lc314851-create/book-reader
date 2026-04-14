@@ -98,7 +98,7 @@ export default function GoldenSentenceShare({ sentences, bookTitle }: Props) {
           fontFamily="'Noto Serif SC', serif"
           lineHeight="tall"
         >
-          「{sentences[selectedIndex]}」
+          「{sentences[selectedIndex] || '暂无金句'}」
         </Text>
         {bookTitle && (
           <Text 
