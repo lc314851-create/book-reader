@@ -1,4 +1,5 @@
 import TTSButton from '@/components/TTSButton'
+import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { ChakraProvider, Box, Heading, Text, VStack, Button, Input, SimpleGrid, Card, CardBody, Image, Badge, Flex, useToast, Container, IconButton } from '@chakra-ui/react'
 
@@ -183,7 +184,6 @@ export default function Home() {
         {/* Books Grid */}
         <SimpleGrid columns={[1, 2, 3]} spacing={6}>
           {displayBooks.map(book => (
-            <BookCard
             <BookCard 
               key={book.id} 
               book={book} 

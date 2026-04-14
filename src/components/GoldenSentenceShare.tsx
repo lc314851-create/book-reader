@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { Box, Button, Flex, Text, IconButton, useToast, HStack } from '@chakra-ui/react'
+import { Box, Button, Flex, Text, IconButton, useToast, HStack, Tooltip } from '@chakra-ui/react'
 
 interface Props {
   sentences: string[]
@@ -48,6 +48,32 @@ export default function GoldenSentenceShare({ sentences, bookTitle }: Props) {
     const text = `「${sentences[selectedIndex]}」${bookTitle ? `\n—— 《${bookTitle}》` : ''}`
     await navigator.clipboard.writeText(text)
     toast({ title: '文字已复制', status: 'success', duration: 2000 })
+  }
+
+  // 分享到微博
+  const handleWeiboShare = () => {
+    const text = `「${sentences[selectedIndex]}」${bookTitle ? `—— 《${bookTitle}》` : ''}`
+    const weiboUrl = `https://service.weibo.com/share/share.php?title=${encodeURIComponent(text)}`
+    window.open(weiboUrl, '_blank', 'width=600,height=400')
+  }
+
+  // 分享到 Twitter/X
+  const handleTwitterShare = () => {
+    const text = `「${sentences[selectedIndex]}」${bookTitle ? `—— 《${bookTitle}》` : ''}`
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`
+    window.open(twitterUrl, '_blank', 'width=600,height=400')
+  }
+
+  // Web Share API (移动端)
+  const handleNativeShare = async () => {
+    const text = `「${sentences[selectedIndex]}」${bookTitle ? `—— 《${bookTitle}》` : ''}`
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: '✨ 金句分享', text })
+      } catch (err) {
+        // 用户取消
+      }
+    }
   }
 
   if (sentences.length === 0) return null
@@ -102,6 +128,11 @@ export default function GoldenSentenceShare({ sentences, bookTitle }: Props) {
       <HStack mt={4} justify="center" spacing={2} flexWrap="wrap">
         <Button size="sm" onClick={handleDownload}>📥 下载图片</Button>
         <Button size="sm" onClick={handleCopyText}>📋 复制文字</Button>
+        <Button size="sm" onClick={handleWeiboShare}>📧 微博</Button>
+        <Button size="sm" onClick={handleTwitterShare}>✈️ X</Button>
+        <Tooltip label="移动端分享">
+          <Button size="sm" onClick={handleNativeShare}>📤</Button>
+        </Tooltip>
       </HStack>
 
       {/* 切换颜色 */}

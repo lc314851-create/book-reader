@@ -1,10 +1,12 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-import { Box, Container, Heading, Text, VStack, Button, Badge, Flex, Spinner, Card, CardBody, Image, Grid } from '@chakra-ui/react'
+import { Box, Container, Heading, Text, VStack, Button, Badge, Flex, Spinner, Card, CardBody, Image, Grid, HStack } from '@chakra-ui/react'
 import Link from 'next/link'
 import TTSButton from '@/components/TTSButton'
 import Comments from '@/components/Comments'
 import GoldenSentenceShare from '@/components/GoldenSentenceShare'
+import ShareButtons from '@/components/ShareButtons'
+import SummaryExport from '@/components/SummaryExport'
 
 interface Note {
   id: string
@@ -84,9 +86,13 @@ export default function BookDetail() {
             <Heading size="lg">📚 {book.title}</Heading>
             <Text mt={2} opacity={0.9}>作者：{book.author}</Text>
           </Box>
-          <Link href="/">
-            <Button variant="outline" color="white" borderColor="white">← 返回首页</Button>
-          </Link>
+          <HStack spacing={4}>
+            <SummaryExport book={book} />
+            <ShareButtons title={book.title} summary={book.description} />
+            <Link href="/">
+              <Button variant="outline" color="white" borderColor="white">← 返回</Button>
+            </Link>
+          </HStack>
         </Flex>
       </Box>
 

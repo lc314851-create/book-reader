@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Box, VStack, Heading, Input, Button, Text, Flex, HStack, Avatar } from '@chakra-ui/react'
+import { Box, VStack, Heading, Input, Button, Text, Flex, HStack, Avatar, Textarea } from '@chakra-ui/react'
 
 interface Comment {
   id: string
