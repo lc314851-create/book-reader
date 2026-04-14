@@ -1,5 +1,6 @@
+import TTSButton from '@/components/TTSButton'
 import { useState, useEffect } from 'react'
-import { ChakraProvider, Box, Heading, Text, VStack, Button, Input, SimpleGrid, Card, CardBody, Image, Badge, Flex, useToast, Tabs, TabList, TabPanels, Tab, TabPanel, Spinner, Container } from '@chakra-ui/react'
+import { ChakraProvider, Box, Heading, Text, VStack, Button, Input, SimpleGrid, Card, CardBody, Image, Badge, Flex, useToast, Container, IconButton } from '@chakra-ui/react'
 
 interface Note {
   id: string
@@ -178,8 +179,11 @@ function BookCard({ book, isProcessing }: { book: Book; isProcessing?: boolean }
           <VStack align="stretch" mt={4} spacing={3}>
             {book.notes.map((note) => (
               <Box key={note.id} p={3} bg="gray.50" borderRadius="md">
-                <Text fontWeight="bold" fontSize="sm">{note.title}</Text>
-                <Text fontSize="sm" color="gray.600" whiteSpace="pre-wrap">
+                <Flex justify="space-between" align="center">
+                  <Text fontWeight="bold" fontSize="sm">{note.title}</Text>
+                  <TTSButton text={note.content} />
+                </Flex>
+                <Text fontSize="sm" color="gray.600" whiteSpace="pre-wrap" mt={1}>
                   {note.content}
                 </Text>
               </Box>
