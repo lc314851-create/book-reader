@@ -22,6 +22,9 @@ export default function Home() {
   const [author, setAuthor] = useState('')
   const [loading, setLoading] = useState(false)
   const [books, setBooks] = useState<Book[]>([])
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState<Book[] | null>(null)
+  const [searching, setSearching] = useState(false)
   const [processingIds, setProcessingIds] = useState<Set<string>>(new Set())
   const toast = useToast()
 
@@ -94,6 +97,25 @@ export default function Home() {
     setLoading(false)
   }
 
+  // 搜索书籍
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) {
+      setSearchResults(null)
+      return
+    }
+    setSearching(true)
+    try {
+      const res = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`)
+      const data = await res.json()
+      setSearchResults(Array.isArray(data) ? data : [])
+    } catch {
+      toast({ title: '搜索失败', status: 'error' })
+    }
+    setSearching(false)
+  }
+
+  const displayBooks = searchResults !== null ? searchResults : books
+
   return (
     <Box minH="100vh" bg="gray.50">
       {/* Header */}
@@ -103,6 +125,30 @@ export default function Home() {
       </Box>
 
       <Container maxW="1200px" py={8}>
+        {/* Search Section */}
+        <Flex mb={6} gap={3}>
+          <Input
+            placeholder="🔍 搜索书名、作者或笔记内容..."
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleSearch()}
+            bg="white"
+            maxW="400px"
+          />
+          <Button onClick={handleSearch} isLoading={searching} colorScheme="blue" variant="outline">
+            搜索
+          </Button>
+          {searchResults !== null && (
+            <Button variant="ghost" onClick={() => { setSearchResults(null); setSearchQuery('') }}>
+              清除
+            </Button>
+          )}
+        </Flex>
+        {searchResults !== null && (
+          <Text mb={4} color="gray.600">
+            找到 {searchResults.length} 个结果
+          </Text>
+        )}
         {/* Add Book Section */}
         <Card mb={8}>
           <CardBody>
@@ -136,7 +182,8 @@ export default function Home() {
 
         {/* Books Grid */}
         <SimpleGrid columns={[1, 2, 3]} spacing={6}>
-          {books.map(book => (
+          {displayBooks.map(book => (
+            <BookCard
             <BookCard 
               key={book.id} 
               book={book} 
