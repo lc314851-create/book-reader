@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Box, Container, Heading, Text, VStack, Button, Badge, Flex, Spinner, Card, CardBody, Image, Grid } from '@chakra-ui/react'
 import Link from 'next/link'
 import TTSButton from '@/components/TTSButton'
-import GoldenSentenceCard from '@/components/GoldenSentenceCard'
+import GoldenSentenceShare from '@/components/GoldenSentenceShare'
 
 interface Note {
   id: string
@@ -151,7 +151,7 @@ export default function BookDetail() {
                     <Heading size="md">✨ 金句提取</Heading>
                     <TTSButton text={goldenNote.content} size="md" />
                   </Flex>
-                  <GoldenSentenceCard sentences={parseSentences(goldenNote.content)} />
+                  <GoldenSentenceShare sentences={parseSentences(goldenNote.content)} bookTitle={book.title} />
                 </CardBody>
               </Card>
             )}
